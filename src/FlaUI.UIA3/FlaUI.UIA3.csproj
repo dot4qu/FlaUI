@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Build">
-    <TargetFrameworks>net35;net40;net45</TargetFrameworks>
+    <TargetFrameworks>net35;net40;net45;netstandard2.0;netcoreapp3.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Label="Package">
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageOutputPath>..\..\artifacts</PackageOutputPath>
     <Version>2.0.0-rc1</Version>
     <Company>FlauTech</Company>
@@ -36,24 +36,6 @@
     <ProjectReference Include="..\FlaUI.Core\FlaUI.Core.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <InteropHintPath>..\libs\Interop</InteropHintPath>
-    <InteropHintPath Condition="'$(EnableSigning)'=='true'">$(InteropHintPath)\Signed</InteropHintPath>
-  </PropertyGroup>
-
-  <ItemGroup Label="Interop References">
-    <Reference Include="Interop.UIAutomationClient" Condition="'$(TargetFramework)'=='net35'">
-      <HintPath>$(InteropHintPath)\3.5\Interop.UIAutomationClient.dll</HintPath>
-      <EmbedInteropTypes>false</EmbedInteropTypes>
-      <SpecificVersion>false</SpecificVersion>
-    </Reference>
-    <Reference Include="Interop.UIAutomationClient" Condition="'$(TargetFramework)'=='net40' Or '$(TargetFramework)'=='net45'">
-      <HintPath>$(InteropHintPath)\4.5\Interop.UIAutomationClient.dll</HintPath>
-      <EmbedInteropTypes>false</EmbedInteropTypes>
-      <SpecificVersion>false</SpecificVersion>
-    </Reference>
-  </ItemGroup>
-
   <ItemGroup Label="References">
     <Reference Include="Accessibility" />
     <Reference Include="WindowsBase" />
@@ -63,6 +45,12 @@
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="" />
     <None Include="..\..\CHANGELOG.md" Pack="true" PackagePath="" />
     <None Include="install.ps1" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+
+  <ItemGroup Label="Interop References">
+    <PackageReference Include="Interop.UIAutomationClient" Version="10.0.18362" />
+    <PackageReference Condition="'$(EnableSigning)'=='true'" Include="Interop.UIAutomationClient.Signed" Version="10.0.18362" />
+    <PackageReference Condition="'$(EnableSigning)'=='false'" Include="Interop.UIAutomationClient" Version="10.0.18362" />
   </ItemGroup>
 
   <PropertyGroup>
